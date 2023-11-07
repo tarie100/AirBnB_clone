@@ -35,10 +35,9 @@ if __name__ == '__main__':
         if class_name not in self.valid_classes:
             print("** class doesn't exist **")
             return
-
-    new_instance = eval(class_name)()
-    new_instance.save()
-    print(new_instance.id)
+        new_instance = eval(class_name)()
+        new_instance.save()
+        print(new_instance.id)
 
     def do_show(self, args):
         """print string rep. of instance"""
@@ -54,14 +53,13 @@ if __name__ == '__main__':
         if len(argss) < 2:
             print("** instance id is missing **")
             return
-
-    instance_id = argss[1]
-    key = "{}.{}".format(class_name,instance_id)
-    if key in models.storage.all():
-        del models.storage.all()[key]
-        models.storage.save()
-    else:
-        print("** no instance found **")
+        instance_id = argss[1]
+        key = "{}.{}".format(class_name,instance_id)
+        if key in models.storage.all():
+            del models.storage.all()[key]
+            models.storage.save()
+        else:
+            print("** no instance found **")
 
     def do_all(self, args):
             """print string rep of all instances"""
