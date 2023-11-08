@@ -2,6 +2,8 @@
 """import module cmd"""
 import cmd
 import uuid
+from models.user import User
+from models.base_model import BaseModel
 """define class"""
 
 class HBNBCommand(cmd.Cmd):
@@ -26,98 +28,78 @@ class HBNBCommand(cmd.Cmd):
         """creating new instance of BaseModel"""
         if not args:
             print("** class name missing **")
-            return
-        argss = args.split()
-        class_name = argss[0]
-
-        if class_name not in self.valid_classes:
+        elif args != "BaseModel" and args != "User":
             print("** class doesn't exist **")
-            return
-        new_instance = eval(class_name)()
-        new_instance.save()
-        print(new_instance.id)
-
+        else:
+            new_instance = BaseModel()
+            new_instance.save()
+            print(new_instance.id)
+            
     def do_show(self, args):
-        """print string rep. of instance"""
+        """Prints the string representation of an instance"""
+        argss = args.split()
         if not args:
             print("** class name missing **")
-            return
-        argss = args.split()
-        class_name = argss[0]
-
-        if class_name not in self.valid_classes:
+        elif argss[0] != "BaseModel" and argss[0] != "User":
             print("** class doesn't exist **")
-            return
-        if len(argss) < 2:
-            print("** instance id is missing **")
-            return
-        instance_id = argss[1]
-        key = "{}.{}".format(class_name,instance_id)
-        if key in models.storage.all():
-            del models.storage.all()[key]
-            models.storage.save()
+        elif len(argss) == 1:
+            print("** instance id missing **")
         else:
-            print("** no instance found **")
+            key = "{}.{}".format(argss[0], argss[1])
+            if key in storage.all():
+                print(storage.all()[key])
+            else:
+                print("** no instance found **")
+
 
     def do_destroy(self, args):
         """Deletes an instance based on the class name"""
+        argss = args.split()
         if not args:
             print("** class name missing **")
-            return
-        argss = args.split()
-        class_name = argss[0]
-        if class_name not in self.valid_classes:
+        elif argss[0] != "BaseModel" and argss[0] != "User":
             print("** class doesn't exist **")
-            if len(argss) < 2:
-                print("** instance id missing **")
-                return
-            instance_id = argss[1]
-            key = "{}.{}".format(class_name, instance_id)
-            if key in models.storage.all():
-                del models.storage.all()[key]
-                models.storage.save()
+        elif len(argss) == 1:
+            print("** instance id missing **")
+        else:
+            key = "{}.{}".format(argss[0], argss[1])
+            if key in storage.all():
+                del storage.all()[key]
+                storage.save()
             else:
                 print("** no instance found **")
 
     def do_all(self, args):
         """Prints all string representation of all instances based or not on the class name"""
         argss = args.split()
-        if not args or argss[0] in self.valid_classes:
-            instance_list = []
-            for key, value in models.storage.all().items():
-                if not args or value.__class__.__name__ == argss[0]:
-                    instance_list.append(str(value))
-                    print(instance_list)
-                else:
-                    print("** class doesn't exist **")
+        if not args:
+            print([str(value) for value in storage.all().values()])
+        elif argss[0] != "BaseModel" and argss[0] != "User":
+            print("** class doesn't exist **")
+        else:
+            class_name = argss[0]
+            print([str(value) for key, value in storage.all().items() if class_name in key])
     
     def do_update(self, args):
         """update an instance based on the class name and id"""
+        argss = args.split()
         if not args:
             print("** class name missing **")
-            return
-        argss = args.split()
-        class_name = argss[0]
-
-        if class_name not in self.valid_classes:
+        elif argss[0] != "BaseModel" and argss[0] != "User":
             print("** class doesn't exist **")
-            return
-
-            if len(argss) < 2:
-                print("** instance id missing **")
-                return
-
-            instance_id = argss[1]
-            key = "{}.{}".format(class_name, instance_id)
-            if key not in models.storage.all():
+        elif len(argss) < 2:
+            print("** instance id missing **")
+        elif len(argss) < 3:
+            print("** attribute name missing **")
+        elif len(argss) < 4:
+            print("** value missing **")
+        else:
+            key = "{}.{}".format(argss[0], argss[1])
+            if key in storage.all():
+                setattr(storage.all()[key], argss[2], argss[3])
+                storage.all()[key].save()
+            else:
                 print("** no instance found **")
-                return
-            if len(argss) < 3:
-                print("** attribute name missing **")
-                return
-            if len(argss) < 4:
-                print("** value missing **")
-                return
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
