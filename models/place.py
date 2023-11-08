@@ -5,7 +5,7 @@ from models.base_model import BaseModel
 class Place(BaseModel):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Additional initialization code specific to the Place class
+        """public class attributes"""
         self.city_id = ""
         self.user_id = ""
         self.name = ""
