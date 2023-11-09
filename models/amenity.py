@@ -2,7 +2,7 @@
 """import modules"""
 from models.base_model import BaseModel
 
-class Amenity(BaseMode)
+class Amenity(BaseModel)
  def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
