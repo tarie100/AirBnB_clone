@@ -4,6 +4,7 @@ import uuid
 from datetime import datetime
 import models
 
+
 class BaseModel:
     def __init__(self, *args, **kwargs):
         if kwargs:
@@ -12,10 +13,16 @@ class BaseModel:
 
             if 'created_at' in kwargs:
                 if isinstance(kwargs['created_at'], str):
-                    kwargs['created_at'] = datetime.strptime(kwargs['created_at'], '%Y-%m-%dT%H:%M:%S.%f')
+                    kwargs['created_at'] = datetime.strptime(
+                            kwargs['created_at'],
+                            '%Y-%m-%dT%H:%M:%S.%f'
+                    )
             if 'updated_at' in kwargs:
                 if isinstance(kwargs['updated_at'], str):
-                    kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'], '%Y-%m-%dT%H:%M:%S.%f')
+                    kwargs['updated_at'] = datetime.strptime(
+                            kwargs['updated_at'],
+                            '%Y-%m-%dT%H:%M:%S.%f'
+                    )
 
             for key, value in kwargs.items():
                 setattr(self, key, value)
@@ -48,6 +55,6 @@ class BaseModel:
             else:
                 dict_format[key] = value
                 return dict_format
-    
+
     def __str__(self):
         return f"{self.__class__.__name__} ({self.id}) {self.__dict__}"
