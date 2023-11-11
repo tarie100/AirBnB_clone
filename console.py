@@ -74,11 +74,12 @@ class HBNBCommand(cmd.Cmd):
         argss = args.split()
         if not args:
             print([str(value) for value in storage.all().values()])
-        elif argss[0] != "BaseModel" and argss[0] != "User":
-            print("** class doesn't exist **")
-        else:
+        elif argss[0] in globals() and hasattr(globals()[argss[0]], 'all'):
             class_name = argss[0]
-            print([str(value) for key, value in storage.all().items() if class_name in key])
+            instances = globals()[class_name].all()
+            print([str(instance) for instance in instances])
+        else:
+            print("** class doesn't exist **")
     
     def do_update(self, args):
         """update an instance based on the class name and id"""
