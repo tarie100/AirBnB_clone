@@ -35,7 +35,7 @@ class FileStorage:
         with open(self.__file_path, mode="w", encoding="utf-8") as f:
             json.dump(serialized, f)
 
-    """This method deserialize the JSON file to __objects (if the file exists)"""
+    """deserialize the JSON file to __objects (if the file exists)"""
     def reload(self):
         if os.path.exists(self.__file_path):
             definclass = {'BaseModel': BaseModel}
@@ -43,7 +43,10 @@ class FileStorage:
                 with open(self.__file_path, mode='r') as f:
                     data = json.load(f)
                 for key, value in data.items():
-                    self.__objects[key] = definclass[value['__class__']](**value)
+                    class_name = value['__class__']
+                    obj_class = definclass[class_name]
+                    obj = obj_class(**value)
+                    self.__objects[key] = obj
                     # obj = self.class_list[value['__class__']](**value)
                     # self.__objects[key] = obj
 
