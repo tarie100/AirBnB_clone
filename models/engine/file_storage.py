@@ -6,6 +6,7 @@ FileStorage module for storing and updating data
 import json
 from datetime import datetime
 from models.base_model import BaseModel
+from models.user import User
 import os
 
 
@@ -38,13 +39,13 @@ class FileStorage:
     """deserialize the JSON file to __objects (if the file exists)"""
     def reload(self):
         if os.path.exists(self.__file_path):
-            definclass = {'BaseModel': BaseModel}
+            class_list = {"BaseModel": BaseModel, "User": User}
             try:
                 with open(self.__file_path, mode='r') as f:
                     data = json.load(f)
                 for key, value in data.items():
                     class_name = value['__class__']
-                    obj_class = definclass[class_name]
+                    obj_class = class_list[class_name]
                     obj = obj_class(**value)
                     self.__objects[key] = obj
                     # obj = self.class_list[value['__class__']](**value)
