@@ -2,13 +2,17 @@
 """import module cmd"""
 import cmd
 import uuid
+import models
 from models.user import User
 from models.base_model import BaseModel
+from models import storage
 """define class"""
 
 class HBNBCommand(cmd.Cmd):
     """assign value to prompt"""
     prompt = '(hbnb) '
+    classes_list = ["BaseModel", "User", "State", "City\
+", "Amenity", "Place", "Review"]
 
     def do_quit(self, args):
         """Exit program"""
@@ -69,17 +73,23 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** no instance found **")
 
-    def do_all(self, args):
-        """Prints all string representation of all instances based or not on the class name"""
-        argss = args.split()
-        if not args:
-            print([str(value) for value in storage.all().values()])
-        elif argss[0] in globals() and hasattr(globals()[argss[0]], 'all'):
-            class_name = argss[0]
-            instances = globals()[class_name].all()
-            print([str(instance) for instance in instances])
+    def do_all(self, arg):
+        """Prints all string representations of instances."""
+        # TODO: all BaseModel dgf
+        if arg == "":
+            list_str = []
+            for key in storage.all():
+                list_str.append(str(storage.all()[key]))
+            print(list_str)
         else:
-            print("** class doesn't exist **")
+            if arg.split()[0] in HBNBCommand.classes_list:
+                list_str = []
+                for key in storage.all():
+                    if arg.split()[0] in key:
+                        list_str.append(str(storage.all()[key]))
+                print(list_str)
+            else:
+                print("** class doesn't exist **")
     
     def do_update(self, args):
         """update an instance based on the class name and id"""
