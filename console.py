@@ -16,7 +16,7 @@ from models import storage
 class HBNBCommand(cmd.Cmd):
     """assign value to prompt"""
     prompt = '(hbnb) '
-    classes_list = ["BaseModel": BaseModel, "User": User," State": State, "City": City, "Amenity": Amenity, "Place": Place, "Review": Review]
+    class_list = {"BaseModel": BaseModel}, {"User": User}, {"State": State}, {"City": City}, {"Amenity": Amenity}, {"Place": Place}, {"Review": Review}
 
     def do_quit(self, args):
         """Exit program"""
@@ -79,21 +79,21 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, arg):
         """Prints all string representations of instances."""
-        # TODO: all BaseModel dgf
-        if arg == "":
-            list_str = []
-            for key in storage.all():
-                list_str.append(str(storage.all()[key]))
-            print(list_str)
-        else:
-            if arg.split()[0] in HBNBCommand.classes_list:
-                list_str = []
-                for key in storage.all():
-                    if arg.split()[0] in key:
-                        list_str.append(str(storage.all()[key]))
-                print(list_str)
-            else:
+        words = arg.split()
+        if len(words) > 0:
+            class_name = words[0]
+            try:
+                model_class = globals()[class_name]
+            except KeyError:
                 print("** class doesn't exist **")
+                return
+        else:
+            class_name = None
+        all_list = []
+        for key, val in storage.all().items():
+            if class_name is None or isinstance(val, model_class):
+                all_list.append(val.__str__())
+        print(all_list)
     
     def do_update(self, args):
         """update an instance based on the class name and id"""
