@@ -125,8 +125,25 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("Not a valid command")
 
+    def do_BaseModel(self, arg):
+        self.exec_cls_cmd('BaseModel', arg)
+
     def do_User(self, arg):
         self.exec_cls_cmd('User', arg)
+
+    def do_State(self, arg):
+        self.exec_cls_cmd('State', arg)
+
+    def do_City(self, arg):
+        self.exec_cls_cmd('City', arg)
+
+    def do_Place(self, arg):
+        self.exec_cls_cmd('Place', arg)
+
+    def do_Amenity(self, arg):
+        self.exec_cls_cmd('Amenity', arg)
+    def do_Review(self, arg):
+        self.exec_cls_cmd('Review', arg)
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
