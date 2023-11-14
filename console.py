@@ -93,6 +93,9 @@ class HBNBCommand(cmd.Cmd):
         for key, val in storage.all().items():
             if class_name is None or isinstance(val, model_class):
                 all_list.append(val.__str__())
+        if class_name and hasattr(model_class, 'all'):
+            all_list = [str(instance) for instance in model_class.all()]
+
         print(all_list)
     
     def do_update(self, args):
@@ -115,6 +118,15 @@ class HBNBCommand(cmd.Cmd):
                 storage.all()[key].save()
             else:
                 print("** no instance found **")
+
+    def exec_cls_cmd(self, class_name, arg):
+        if arg[:6] == ".all()":
+            self.do_all(class_name)
+        else:
+            print("Not a valid command")
+
+    def do_User(self, arg):
+        self.exec_cls_cmd('User', arg)
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
