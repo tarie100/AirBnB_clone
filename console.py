@@ -154,6 +154,27 @@ class HBNBCommand(cmd.Cmd):
             self.do_show(class_name + ' ' + arg[7:-2])
         elif arg[:9] == '.destroy(':
             self.do_destroy(class_name + ' ' + arg[10:-2])
+        elif arg[:8] == '.update(':
+            if '{' in arg and '}' in arg:
+                new_arg = arg[8:-1].split('{')
+                new_arg[1] = '{' + new_arg[1]
+            else:
+                new_arg = arg[8:-1].split(',')
+            if len(new_arg) == 3:
+                new_arg = " ".join(new_arg)
+                new_arg = new_arg.replace("\"", "")
+                new_arg = new_arg.replace("  ", " ")
+                self.do_update(class_name + ' ' + new_arg)
+            elif len(new_arg) == 2:
+                try:
+                    dict = eval(new_arg[1])
+                except:
+                    return
+                for j in dict.keys():
+                    self.do_update(class_name + ' ' + new_arg[0][1:-3] + ' ' +
+                                   str(j) + ' ' + str(dict[j]))
+            else:
+                return
         else:
             print("Not a valid command")
 
