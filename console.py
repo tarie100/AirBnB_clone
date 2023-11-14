@@ -152,6 +152,8 @@ class HBNBCommand(cmd.Cmd):
             self.do_count(class_name)
         elif arg[:6] == '.show(':
             self.do_show(class_name + ' ' + arg[7:-2])
+        elif arg[:9] == '.destroy(':
+            self.do_destroy(class_name + ' ' + arg[10:-2])
         else:
             print("Not a valid command")
 
