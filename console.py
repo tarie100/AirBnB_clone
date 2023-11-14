@@ -146,7 +146,9 @@ class HBNBCommand(cmd.Cmd):
         print(count)
 
     def exec_cls_cmd(self, class_name, arg):
-        if arg[:6] == ".all()":
+        if arg[:9] == ".create()":
+            self.do_create(class_name)
+        elif arg[:6] == ".all()":
             self.do_all(class_name)
         elif arg[:8] == ".count()":
             self.do_count(class_name)
