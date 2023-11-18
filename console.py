@@ -6,6 +6,7 @@ from models.user import User
 from models.base_model import BaseModel
 """define class"""
 
+
 class HBNBCommand(cmd.Cmd):
     """assign value to prompt"""
     prompt = '(hbnb) '
@@ -34,9 +35,9 @@ class HBNBCommand(cmd.Cmd):
             new_instance = BaseModel()
             new_instance.save()
             print(new_instance.id)
-            
+
     def do_show(self, args):
-        """Prints the string representation of an instance"""
+        """Prints the string rep of instance"""
         argss = args.split()
         if not args:
             print("** class name missing **")
@@ -50,7 +51,6 @@ class HBNBCommand(cmd.Cmd):
                 print(storage.all()[key])
             else:
                 print("** no instance found **")
-
 
     def do_destroy(self, args):
         """Deletes an instance based on the class name"""
@@ -70,7 +70,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** no instance found **")
 
     def do_all(self, args):
-        """Prints all string representation of all instances based or not on the class name"""
+        """Prints all string rep of all instances"""
         argss = args.split()
         if not args:
             print([str(value) for value in storage.all().values()])
@@ -80,7 +80,7 @@ class HBNBCommand(cmd.Cmd):
             print([str(instance) for instance in instances])
         else:
             print("** class doesn't exist **")
-    
+
     def do_update(self, args):
         """update an instance based on the class name and id"""
         argss = args.split()
@@ -101,6 +101,7 @@ class HBNBCommand(cmd.Cmd):
                 storage.all()[key].save()
             else:
                 print("** no instance found **")
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
