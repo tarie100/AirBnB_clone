@@ -1,0 +1,21 @@
+.locations{
+        height: 100%;
+        width: 25%;
+        border: right #DDDDDD 1px;
+        justify-content: flex-start;
+        color: black;
+      }
+      .amenities{
+        height: 100%;
+        width: 25%;
+        border: right #DDDDDD 1px;
+        justify-content: center;
+        color: black;
+      }
+      h3{
+        font-weight: 600;
+      }
+      h4{
+        font-weight: 400;
+        font-size: 14px;
+      }
